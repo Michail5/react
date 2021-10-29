@@ -1,101 +1,162 @@
-export default class Api {
-  constructor({url, authorizationToken}) {
+import {
+  baseUrl,
+  baseToken
+} from "../utils/constants";
+
+class API {
+
+
+  constructor(url, token) {
     this._url = url;
-    this._authorizationToken = authorizationToken;
+    this._token = token;
   }
 
-  getUserInfo() {
-    return fetch(this._url + '/users/me', {
-      headers: {
-        authorization: this._authorizationToken
-      }
-    })
-      .then(this.checkResult);
-  }
-
+  // метод инициализации карточек
   getInitialCards() {
-    return fetch(this._url + '/cards', {
+    return fetch(`${this._url}/cards`, {
       headers: {
-        authorization: this._authorizationToken
+        authorization: this._token
       }
     })
-      .then(this.checkResult);
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        // отклоняем промис, чтобы перейти в блок catch, если сервер вернул ошибку
+        return Promise.reject(`Что-то пошло не так: ${res.status}`);
+      });
   }
 
-  editProfile(data) {
-    return fetch(this._url + '/users/me', {
+  // метод инициализации данных пользователя
+  getUserData() {
+    return fetch(`${this._url}/users/me`, {
+      headers: {
+        authorization: this._token
+      }
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        // отклоняем промис, чтобы перейти в блок catch, если сервер вернул ошибку
+        return Promise.reject(`Что-то пошло не так: ${res.status}`);
+      });
+  }
+
+  // сохранение на сервере отредактированных данных пользователя
+  setUserData({ name, about }) {
+    return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
       headers: {
-        authorization: this._authorizationToken,
+        authorization: this._token,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify({ name, about })
     })
-      .then(this.checkResult);
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        // отклоняем промис, чтобы перейти в блок catch, если сервер вернул ошибку
+        return Promise.reject(`Что-то пошло не так: ${res.status}`);
+      });
   }
 
-  addCard(item) {
-    return fetch(this._url + '/cards', {
+  // добавление на сервере новой карточки
+  postCard(data) {
+    return fetch(`${this._url}/cards`, {
       method: 'POST',
       headers: {
-        authorization: this._authorizationToken,
+        authorization: this._token,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(item)
+      body: JSON.stringify({
+        name: data.name,
+        link: data.link
+      })
     })
-      .then(this.checkResult);
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        // отклоняем промис, чтобы перейти в блок catch, если сервер вернул ошибку
+        return Promise.reject(`Что-то пошло не так: ${res.status}`);
+      });
   }
 
-  deleteCard(cardId) {
-    return fetch(this._url + '/cards/' + cardId, {
+  // метод удаления карточек
+  deleteCard(idCard) {
+    return fetch(`${this._url}/cards/${idCard}`, {
       method: 'DELETE',
       headers: {
-        authorization: this._authorizationToken,
-        'Content-Type': 'application/json'
-      },
+        authorization: this._token
+      }
     })
-      .then(this.checkResult);
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        // отклоняем промис, чтобы перейти в блок catch, если сервер вернул ошибку
+        return Promise.reject(`Что-то пошло не так: ${res.status}`);
+      });
   }
 
-  addLike(cardId) {
-    return fetch(this._url + '/cards/likes/' + cardId, {
-      method: 'PUT',
+  // ставим лайк карточке
+  changeLikeCardStatus(idCard, like) {
+    return fetch(`${this._url}/cards/likes/${idCard}`, {
+      method: like ? 'DELETE' : 'PUT',
       headers: {
-        authorization: this._authorizationToken,
-        'Content-Type': 'application/json'
-      },
+        authorization: this._token
+      }
     })
-      .then(this.checkResult);
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        // отклоняем промис, чтобы перейти в блок catch, если сервер вернул ошибку
+        return Promise.reject(`Что-то пошло не так: ${res.status}`);
+      });
   }
 
-  removeLike(cardId) {
-    return fetch(this._url + '/cards/likes/' + cardId, {
-      method: 'DELETE',
+  // метод получения данных карточки
+  getCard(idCard) {
+    return fetch(`${this._url}/cards/${idCard}`, {
       headers: {
-        authorization: this._authorizationToken,
-        'Content-Type': 'application/json'
-      },
+        authorization: this._token
+      }
     })
-      .then(this.checkResult);
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        // отклоняем промис, чтобы перейти в блок catch, если сервер вернул ошибку
+        return Promise.reject(`Что-то пошло не так: ${res.status}`);
+      });
   }
 
-  editAvatar(avatar) {
-    return fetch(this._url + '/users/me/avatar', {
+  // метод для обновления аватара пользователя
+  patchAvatar(data) {
+    return fetch(`${this._url}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
-        authorization: this._authorizationToken,
+        authorization: this._token,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(avatar)
+      body: JSON.stringify({
+        avatar: data.link
+      })
     })
-      .then(this.checkResult);
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        // отклоняем промис, чтобы перейти в блок catch, если сервер вернул ошибку
+        return Promise.reject(`Что-то пошло не так: ${res.status}`);
+      });
   }
 
-  checkResult = res => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      return Promise.reject(`Ошибка: ${res.status}`);
-    }
-  }
 }
+
+// экземпляр класса для работы с сервером
+// API для получение данных
+export const apiData = new API(baseUrl, baseToken);
