@@ -7,12 +7,12 @@ class ImagePopup extends React.Component {
 
     render() {
         return (
-            <div class="popup popup-image">
-                <div class="popup__container popup-image__container">
-                    <button type="button" class="popup__close-button popup-image__close-button button"></button>
-                    <figure class="popup-image__figure">
-                        <img class="popup-image__image" src="#" alt=""/>
-                        <figcaption class ="popup-image__caption"></figcaption>
+            <div className="popup popup-image">
+                <div className="popup__container popup-image__container">
+                    <button type="button" className="popup__close-button popup-image__close-button button"></button>
+                    <figure className="popup-image__figure">
+                        <img className="popup-image__image" src="#" alt=""/>
+                        <figcaption className ="popup-image__caption"></figcaption>
                     </figure>
                 </div>
             </div>

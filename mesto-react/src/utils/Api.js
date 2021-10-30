@@ -3,7 +3,7 @@ import {
   baseToken
 } from "../utils/constants";
 
-class API {
+class Api {
 
 
   constructor(url, token) {
@@ -11,7 +11,7 @@ class API {
     this._token = token;
   }
 
-  // метод инициализации карточек
+
   getInitialCards() {
     return fetch(`${this._url}/cards`, {
       headers: {
@@ -22,12 +22,12 @@ class API {
         if (res.ok) {
           return res.json();
         }
-        // отклоняем промис, чтобы перейти в блок catch, если сервер вернул ошибку
+
         return Promise.reject(`Что-то пошло не так: ${res.status}`);
       });
   }
 
-  // метод инициализации данных пользователя
+
   getUserData() {
     return fetch(`${this._url}/users/me`, {
       headers: {
@@ -38,12 +38,12 @@ class API {
         if (res.ok) {
           return res.json();
         }
-        // отклоняем промис, чтобы перейти в блок catch, если сервер вернул ошибку
+
         return Promise.reject(`Что-то пошло не так: ${res.status}`);
       });
   }
 
-  // сохранение на сервере отредактированных данных пользователя
+
   setUserData({ name, about }) {
     return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
@@ -57,12 +57,11 @@ class API {
         if (res.ok) {
           return res.json();
         }
-        // отклоняем промис, чтобы перейти в блок catch, если сервер вернул ошибку
         return Promise.reject(`Что-то пошло не так: ${res.status}`);
       });
   }
 
-  // добавление на сервере новой карточки
+
   postCard(data) {
     return fetch(`${this._url}/cards`, {
       method: 'POST',
@@ -79,12 +78,12 @@ class API {
         if (res.ok) {
           return res.json();
         }
-        // отклоняем промис, чтобы перейти в блок catch, если сервер вернул ошибку
+
         return Promise.reject(`Что-то пошло не так: ${res.status}`);
       });
   }
 
-  // метод удаления карточек
+
   deleteCard(idCard) {
     return fetch(`${this._url}/cards/${idCard}`, {
       method: 'DELETE',
@@ -96,12 +95,12 @@ class API {
         if (res.ok) {
           return res.json();
         }
-        // отклоняем промис, чтобы перейти в блок catch, если сервер вернул ошибку
+
         return Promise.reject(`Что-то пошло не так: ${res.status}`);
       });
   }
 
-  // ставим лайк карточке
+
   changeLikeCardStatus(idCard, like) {
     return fetch(`${this._url}/cards/likes/${idCard}`, {
       method: like ? 'DELETE' : 'PUT',
@@ -113,12 +112,11 @@ class API {
         if (res.ok) {
           return res.json();
         }
-        // отклоняем промис, чтобы перейти в блок catch, если сервер вернул ошибку
+
         return Promise.reject(`Что-то пошло не так: ${res.status}`);
       });
   }
 
-  // метод получения данных карточки
   getCard(idCard) {
     return fetch(`${this._url}/cards/${idCard}`, {
       headers: {
@@ -129,12 +127,12 @@ class API {
         if (res.ok) {
           return res.json();
         }
-        // отклоняем промис, чтобы перейти в блок catch, если сервер вернул ошибку
+
         return Promise.reject(`Что-то пошло не так: ${res.status}`);
       });
   }
 
-  // метод для обновления аватара пользователя
+
   patchAvatar(data) {
     return fetch(`${this._url}/users/me/avatar`, {
       method: 'PATCH',
@@ -150,13 +148,12 @@ class API {
         if (res.ok) {
           return res.json();
         }
-        // отклоняем промис, чтобы перейти в блок catch, если сервер вернул ошибку
+
         return Promise.reject(`Что-то пошло не так: ${res.status}`);
       });
   }
 
 }
 
-// экземпляр класса для работы с сервером
-// API для получение данных
-export const apiData = new API(baseUrl, baseToken);
+
+export const apiData = new Api(baseUrl, baseToken);

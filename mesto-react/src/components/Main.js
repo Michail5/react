@@ -1,6 +1,8 @@
 import React from "react";
 import Api, { apiData } from '../utils/Api.js';
-//import Cards from "./Cards.js"; 
+import Card from "./Card.js";
+
+
 function Main(props) {
 
   const [userName, handleGetUserName] = React.useState(null);
@@ -11,56 +13,47 @@ function Main(props) {
   React.useEffect(() => {
     
     apiData.getUserData()
-      .then(res => {
-        handleGetUserName(res.name);
-        handleGetUserDescription(res.about);
-        handleGetUserAvatar(res.avatar);
-      })
-      .catch((err) => {
-        console.log(err); 
-        return [];
-      })
+    .then(res => {
+      handleGetUserName(res.name);
+      handleGetUserDescription(res.about); 
+      handleGetUserAvatar(res.avatar);
+    })
+    .catch((err) => {
+      console.log(err); 
+    })
   });
 
-
   React.useEffect(() => {
-    // запрос в API за карточками мест
+    
     apiData.getInitialCards()
-      .then(items => {
-        console.log(items);
-        setCards(items);
-      })
-      .catch((err) => {
-        console.log(err); 
-        return [];
-      })
+    .then(items => {
+      setCards(items);
+    })
+    .catch((err) => {
+      console.log(err); 
+      return [];
+    })
   }, []);
+
 
   function CardList(props) {
     const cards = props.cards;
     const listCards = cards.map((card) =>
-
-      <template id="element-template">
-        <article className="element">
-          <button type="button" className="element__remove-button button"></button>
-          <img src={card.link} alt={card.name} className="element__image" />
-          <div className="element__description">
-            <h2 className="element__title">{card.name}</h2>
-            <div className="element__like-container">
-              <button type="button" className="element__like-button"></button>
-              <p className="element__liike-container">{card.likes.length}</p>
-            </div>
-          </div>
-        </article>
-      </template>
+      <Card card={card} onCardClick={props.onFunctionClick} />
+    );
+    return (
+      <section className="elements">
+        {listCards}
+      </section>
     );
   }
   return (
+    
     <main className="content">
       <section className="profile">
         <div className="profile__avatar">
           <img
-            className="profile__image" src={userAvatar} alt={userName} />
+            className="profile__image" src={userAvatar} alt={userName} onClick={props.onEditAvatar}/>
         </div>
         <div className="profile__info">
           <h1 className="profile__title">{userName}</h1>
@@ -72,8 +65,8 @@ function Main(props) {
 
       <section className="elements">
       </section>
-      <CardList cards={cards} />,
-    </main>
+      <CardList cards={cards} onFunctionClick={props.onCardClick}/>
+</main>
   );
 }
 
