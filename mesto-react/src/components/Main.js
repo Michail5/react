@@ -38,8 +38,8 @@ function Main(props) {
 
   function CardList(props) {
     const cards = props.cards;
-    const listCards = cards.map((card) =>
-      <Card card={card} onCardClick={props.onFunctionClick} />
+    const listCards = cards.map((card, i) =>
+    <Card card={card} key={i} onCardClick={props.onFunctionClick} />
     );
     return (
       <section className="elements">
@@ -63,9 +63,7 @@ function Main(props) {
         <button type="button" className="profile__add-button button" onClick={props.onAddPlace}></button>
       </section>
 
-      <section className="elements">
-      </section>
-      <CardList cards={cards} onFunctionClick={props.onCardClick}/>
+      <CardList cards={cards} onFunctionClick={props.onCardClick}/> 
 </main>
   );
 }

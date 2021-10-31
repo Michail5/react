@@ -7,24 +7,22 @@ class Card extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
   handleClick = () => {
-    this.props.oncardClick(this.card);
+    this.props.onCardClick(this.card);
   }
 
   render() {
     return(
-    <template id="element-template">
-    <article class="element">
-      <button type="button" class="element__remove-button button" ></button>
-      <img src={this.card.link} alt={this.card.name} class="element__image" onClick={() => this.handleClick()}/>
-      <div class="element__description">
-        <h2 class="element__title">{this.card.name}</h2>
-        <div class="element__like-container">
-          <button type="button" class="element__like-button"></button>
-          <p class="element__liike-container">{this.card.likes.length}</p>
+    <article className="element">
+      <img src={this.card.link} alt={this.card.name} className="element__image" onClick={() => this.handleClick()}/>
+      <button type="button" className="element__remove-button button" ></button>
+      <div className="element__description">
+        <h2 className="element__title">{this.card.name}</h2>
+        <div className="element__like-container">
+          <button type="button" className="element__like-button"></button>
+          <p className="element__liike-container">{this.card.likes.length}</p>
         </div>
       </div>
     </article>
-  </template>
     );
   }  
 
