@@ -17,20 +17,15 @@ class PopupWithForm extends React.Component {
       this._openedClass = ' ';
     }
     return (
-      <>
-
-        <div className={`popup popup-${this.props.name} ${this._openedClass}`} >
-          <div className="popup__container popup-image__container">
-            <button type="button" className="popup__close-button popup__close-${this.props.name}`} button" onClick={this.props.onClosePopup}></button>
-            <figure className="popup-image__figure">
-              <img className="popup-image__image" src="#" alt="" />
-              <figcaption className="popup-image__caption"></figcaption>
-            </figure>
-          </div>
-        </div>
-
-
-      </>
+      <section className={`popup popup-${this.props.name} ${this._openedClass}`} >
+      <div className="popup__content" >
+        <button className={`popup__close popup__close-${this.props.name}`}  type="button" onClick={this.props.onClosePopup}></button>
+        <h3 className="popup__title">{this.props.title}</h3>
+        <form className={`popup__form popup__form_${this.props.name}`} name="submit-user">
+          {this.props.children} 
+        </form>
+      </div>
+    </section>
     );
   }
 }
