@@ -1,32 +1,31 @@
 import React from "react";
 
-class PopupWithForm extends React.Component {
+class PopupWithForm extends React.Component{
   constructor(props) {
     super(props);
-  }
+    this.state = {
+      submitted: false,
+  };
 
+  }
+ 
   handleSubmit = () => {
     this.setState({ submitted: true });
   };
 
-  render() {
-    if (this.props.isOpen) {
-      this._openedClass = 'popup_opened';
-    }
-    if (this.props.onClose) {
-      this._openedClass = ' ';
-    }
-    return (
-      <section className={`popup popup-${this.props.name} ${this._openedClass}`} >
-      <div className="popup__content" >
-        <button className={`popup__close popup__close-${this.props.name}`}  type="button" onClick={this.props.onClosePopup}></button>
-        <h3 className="popup__title">{this.props.title}</h3>
-        <form className={`popup__form popup__form_${this.props.name}`} name="submit-user">
-          {this.props.children} 
-        </form>
-      </div>
-    </section>
-    );
+  render(){
+    return(
+    <section className={`popup ${this.props.isOpen ? 'popup_opened' : ''}`} id={`${this.props.name}-editor`}>
+        <div className="popup__container">
+            <button type="reset" className="popup__close-button" onClick={this.props.onClosePopup}/>
+            <h2 className="popup__title">{this.props.title}</h2>
+            <form className="popup__form" >
+            {this.props.children} 
+            <button type="submit" className="popup__button">{this.props.buttonName}</button>
+            </form>
+        </div>
+    </section> 
+    )
   }
 }
 export default PopupWithForm;
