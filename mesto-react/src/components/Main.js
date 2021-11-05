@@ -41,8 +41,10 @@ function Main(props) {
   );
   return (
     <ul className="elements__list">
-      {listCards}
-    </ul>
+        {cards.map((card) =>
+           <Card card={card} key={card._id} onCardClick={props.onCardClick} />
+         )}
+</ul> 
   );
 }
   return (
@@ -73,7 +75,7 @@ function Main(props) {
           className="profile__add-button"
         />
       </section>
-     
+ 
     </main>
   )
 }
